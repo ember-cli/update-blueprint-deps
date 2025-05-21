@@ -1,0 +1,22 @@
+{
+  "solution": {
+    "update-blueprint-deps": {
+      "impact": "minor",
+      "oldVersion": "0.0.0",
+      "newVersion": "0.1.0",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
+          "impact": "patch",
+          "reason": "Appears in changelog section :house: Internal"
+        }
+      ],
+      "pkgJSONPath": "./package.json"
+    }
+  },
+  "description": "## Release (2025-05-21)\n\n* update-blueprint-deps 0.1.0 (minor)\n\n#### :rocket: Enhancement\n* `update-blueprint-deps`\n  * [#1](https://github.com/ember-cli/update-blueprint-deps/pull/1) copy implementation from ember-cli and convert to commander ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `update-blueprint-deps`\n  * [#5](https://github.com/ember-cli/update-blueprint-deps/pull/5) add linting ([@mansona](https://github.com/mansona))\n  * [#4](https://github.com/ember-cli/update-blueprint-deps/pull/4) add a basic test ([@mansona](https://github.com/mansona))\n  * [#2](https://github.com/ember-cli/update-blueprint-deps/pull/2) start using release-plan ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+}
