@@ -12,5 +12,8 @@
   "license": "MIT",
   "packageManager": "pnpm@10.11.0",
   "dependencies": {
+    "commander": "^14.0.0",
+    "latest-version": "^9.0.0",
+    "npm-package-arg": "^12.0.2"
   }
 }
