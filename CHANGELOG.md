@@ -2,6 +2,17 @@
 
 ## Release (2025-05-21)
 
+* update-blueprint-deps 0.1.1 (patch)
+
+#### :bug: Bug Fix
+* `update-blueprint-deps`
+  * [#6](https://github.com/ember-cli/update-blueprint-deps/pull/6) only deploy needed files ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2025-05-21)
+
 * update-blueprint-deps 0.1.0 (minor)
 
 #### :rocket: Enhancement
