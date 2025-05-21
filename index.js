@@ -1,7 +1,6 @@
 import { program, Option } from 'commander';
 import { join } from 'node:path';
 import fs from 'node:fs';
-import npmPackageArg from 'npm-package-arg';
 import _latestVersion from 'latest-version';
 import { readFile } from 'node:fs/promises';
 
@@ -26,89 +25,91 @@ Examples:
   .option('--latest', `Always use the latest version available for a package (includes major bumps, 'false' by default)`)
   .argument('<files...>', 'package.json files to update');
 
-program.parse();
+export default async function main(argv) {
+  program.parse(argv);
 
-const OPTIONS = program.opts();
+  const OPTIONS = program.opts();
 
-const PACKAGE_FILES = program.args;
+  const PACKAGE_FILES = program.args;
 
-function shouldCheckDependency(dependency) {
-  if (OPTIONS.filter) {
-    return OPTIONS.filter.test(dependency);
-  }
-
-  return true;
-}
-
-const LATEST = new Map();
-async function latestVersion(packageName, semverRange) {
-  let result = LATEST.get(packageName);
-
-  if (result === undefined) {
-    let options = {
-      version: semverRange,
-    };
-
-    if (OPTIONS[packageName]) {
-      options.version = OPTIONS[packageName];
+  function shouldCheckDependency(dependency) {
+    if (OPTIONS.filter) {
+      return OPTIONS.filter.test(dependency);
     }
 
-    result = _latestVersion(packageName, options);
-    LATEST.set(packageName, result);
+    return true;
   }
 
-  return result;
-}
+  const LATEST = new Map();
+  async function latestVersion(packageName, semverRange) {
+    let result = LATEST.get(packageName);
 
-async function updateDependencies(dependencies) {
-  for (let dependencyKey in dependencies) {
-    let dependencyName = removeTemplateExpression(dependencyKey);
+    if (result === undefined) {
+      let options = {
+        version: semverRange,
+      };
 
-    if (!shouldCheckDependency(dependencyName)) {
-      continue;
+      if (OPTIONS[packageName]) {
+        options.version = OPTIONS[packageName];
+      }
+
+      result = _latestVersion(packageName, options);
+      LATEST.set(packageName, result);
     }
 
-    let previousValue = dependencies[dependencyKey];
+    return result;
+  }
 
-    // grab the first char (~ or ^)
-    let prefix = previousValue[0];
-    let isValidPrefix = prefix === '~' || prefix === '^';
+  async function updateDependencies(dependencies) {
+    for (let dependencyKey in dependencies) {
+      let dependencyName = removeTemplateExpression(dependencyKey);
 
-    // handle things from blueprints/app/files/package.json like `^2.4.0<% if (welcome) { %>`
-    let templateSuffix = previousValue.includes('<') ? previousValue.slice(previousValue.indexOf('<')) : '';
+      if (!shouldCheckDependency(dependencyName)) {
+        continue;
+      }
 
-    // check if we are dealing with `~<%= emberCLIVersion %>`
-    let hasVersion = previousValue[1] !== '<';
+      let previousValue = dependencies[dependencyKey];
 
-    if (hasVersion && isValidPrefix) {
-      const semverRange = OPTIONS.latest ? 'latest' : removeTemplateExpression(previousValue);
-      const newVersion = await latestVersion(dependencyName, semverRange);
+      // grab the first char (~ or ^)
+      let prefix = previousValue[0];
+      let isValidPrefix = prefix === '~' || prefix === '^';
 
-      dependencies[dependencyKey] = `${prefix}${newVersion}${templateSuffix}`;
+      // handle things from blueprints/app/files/package.json like `^2.4.0<% if (welcome) { %>`
+      let templateSuffix = previousValue.includes('<') ? previousValue.slice(previousValue.indexOf('<')) : '';
+
+      // check if we are dealing with `~<%= emberCLIVersion %>`
+      let hasVersion = previousValue[1] !== '<';
+
+      if (hasVersion && isValidPrefix) {
+        const semverRange = OPTIONS.latest ? 'latest' : removeTemplateExpression(previousValue);
+        const newVersion = await latestVersion(dependencyName, semverRange);
+
+        dependencies[dependencyKey] = `${prefix}${newVersion}${templateSuffix}`;
+      }
     }
   }
-}
 
-function removeTemplateExpression(dependency) {
-  if (dependency.includes('<') === false) {
-    return dependency;
+  function removeTemplateExpression(dependency) {
+    if (dependency.includes('<') === false) {
+      return dependency;
+    }
+
+    let semverRange = dependency.replace(
+      dependency.substring(dependency.indexOf('<'), dependency.lastIndexOf('>') + 1),
+      ''
+    );
+
+    return semverRange;
   }
 
-  let semverRange = dependency.replace(
-    dependency.substring(dependency.indexOf('<'), dependency.lastIndexOf('>') + 1),
-    ''
-  );
+  for (let filePath of PACKAGE_FILES) {
+    let pkg = JSON.parse(fs.readFileSync(filePath, { encoding: 'utf8' }));
 
-  return semverRange;
-}
+    await updateDependencies(pkg.dependencies);
+    await updateDependencies(pkg.devDependencies);
 
-for (let filePath of PACKAGE_FILES) {
-  let pkg = JSON.parse(fs.readFileSync(filePath, { encoding: 'utf8' }));
+    let output = `${JSON.stringify(pkg, null, 2)}\n`;
 
-  await updateDependencies(pkg.dependencies);
-  await updateDependencies(pkg.devDependencies);
-
-  let output = `${JSON.stringify(pkg, null, 2)}\n`;
-
-  fs.writeFileSync(filePath, output, { encoding: 'utf8' });
+    fs.writeFileSync(filePath, output, { encoding: 'utf8' });
+  }
 }
