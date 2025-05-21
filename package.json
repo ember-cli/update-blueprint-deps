@@ -12,14 +12,25 @@
   "type": "module",
   "bin": "main.js",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "format": "prettier . --cache --write",
+    "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
+    "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\" --prefixColors auto && npm run format",
+    "lint:format": "prettier . --cache --check",
+    "lint:js": "eslint . --cache",
+    "lint:js:fix": "eslint . --fix"
   },
   "dependencies": {
     "commander": "^14.0.0",
     "latest-version": "^9.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "concurrently": "^9.1.2",
+    "eslint": "^9.27.0",
     "fixturify-project": "^7.1.3",
+    "globals": "^16.1.0",
+    "prettier": "^3.5.3",
     "release-plan": "^0.16.0",
     "semver": "^7.7.2",
     "vitest": "^3.1.4"
