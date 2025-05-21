@@ -11,6 +11,11 @@
   "author": "",
   "type": "module",
   "bin": "main.js",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "main.js"
+  ],
   "scripts": {
     "test": "vitest",
     "format": "prettier . --cache --write",
