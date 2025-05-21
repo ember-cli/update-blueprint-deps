@@ -2,18 +2,25 @@
   "name": "update-blueprint-deps",
   "version": "0.0.0",
   "description": "",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ember-cli/update-blueprint-deps.git"
+  },
+  "license": "MIT",
+  "author": "",
   "type": "module",
   "bin": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
-  "packageManager": "pnpm@10.11.0",
   "dependencies": {
     "commander": "^14.0.0",
     "latest-version": "^9.0.0",
     "npm-package-arg": "^12.0.2"
-  }
+  },
+  "devDependencies": {
+    "release-plan": "^0.16.0"
+  },
+  "packageManager": "pnpm@10.11.0"
 }
