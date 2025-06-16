@@ -2,6 +2,7 @@ import { beforeEach, it, describe, expect, vi } from 'vitest';
 import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
 import semver from 'semver';
+import { Project } from 'fixturify-project';
 
 let project;
 
@@ -24,7 +25,6 @@ vi.mock('latest-version', () => {
 
 describe('Basic test', () => {
   beforeEach(async () => {
-    const { Project } = require('fixturify-project');
     project = new Project('test-project');
 
     project.addDependency('mocha', '^5.1.0');
@@ -89,4 +89,45 @@ describe('Basic test', () => {
       "
     `);
   });
+
+  it('works correctly with --filter', async() => {
+    project = new Project('test-project');
+
+    project.addDependency('mocha', '^5.1.0');
+    project.addDependency('@ember-data/thingy', '~5.3.8')
+    project.addDependency('@ember-data/store', '~5.1.0')
+    await project.write();
+
+    await main([
+      'fake',
+      'fake',
+      '--ember-source',
+      'latest',
+      '--ember-data',
+      'latest',
+      '--latest',
+      '--filter',
+      '@ember-data/*',
+      join(project.baseDir, 'package.json'),
+    ]);
+
+    const contents = await readFile(
+      join(project.baseDir, 'package.json'),
+      'utf8',
+    );
+    expect(contents).toMatchInlineSnapshot(`
+      "{
+        "name": "test-project",
+        "version": "0.0.0",
+        "keywords": [],
+        "dependencies": {
+          "mocha": "^5.1.0",
+          "@ember-data/thingy": "~7.7.7",
+          "@ember-data/store": "~7.7.7"
+        },
+        "devDependencies": {}
+      }
+      "
+    `);
+  })
 });
