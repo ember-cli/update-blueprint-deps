@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-06-25)
+
+* update-blueprint-deps 0.2.0 (minor)
+
+#### :rocket: Enhancement
+* `update-blueprint-deps`
+  * [#8](https://github.com/ember-cli/update-blueprint-deps/pull/8) Remove `--latest` in favour of `--tag latest` and add tests ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-05-21)
 
 * update-blueprint-deps 0.1.1 (patch)
