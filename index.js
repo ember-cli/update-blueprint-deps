@@ -17,9 +17,9 @@ program
 
 Examples:
 
-  node dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
-  node dev/update-blueprint-dependencies.js --filter /eslint/
-  node dev/update-blueprint-dependencies.js --filter some-package@beta
+  npx update-blueprint-deps --ember-source=beta --ember-data=beta
+  npx update-blueprint-deps --filter /@warp-drive\\/*/
+  npx update-blueprint-deps --filter /@warp-drive\\/*/ --tag beta
 `,
   )
   .description(
@@ -41,15 +41,21 @@ Examples:
     ).argParser((value) => new RegExp(value)),
   )
   .option(
-    '--latest',
-    `Always use the latest version available for a package (includes major bumps, 'false' by default)`,
+    '--tag <tag-name>',
+    'Allows you to set the tag want to target when using --filter to update multiple packages',
   )
+  .addOption(new Option('--latest').hideHelp())
   .argument('<files...>', 'package.json files to update');
 
 export default async function main(argv) {
   program.parse(argv);
 
   const OPTIONS = program.opts();
+
+  if (OPTIONS.latest) {
+    console.error(`use argument '--tag latest' instead of passing '--latest'`);
+    process.exit(1);
+  }
 
   const PACKAGE_FILES = program.args;
 
@@ -104,8 +110,8 @@ export default async function main(argv) {
       let hasVersion = previousValue[1] !== '<';
 
       if (hasVersion && isValidPrefix) {
-        const semverRange = OPTIONS.latest
-          ? 'latest'
+        const semverRange = OPTIONS.tag
+          ? OPTIONS.tag
           : removeTemplateExpression(previousValue);
         const newVersion = await latestVersion(dependencyName, semverRange);
 
