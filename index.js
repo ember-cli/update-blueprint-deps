@@ -17,8 +17,9 @@ program
 
 Examples:
 
-  node dev/update-blueprint-dependencies.js --ember-source=beta --ember-data=beta
-  node dev/update-blueprint-dependencies.js --filter /@warp-drive\\/*/
+  npx update-blueprint-deps --ember-source=beta --ember-data=beta
+  npx update-blueprint-deps --filter /@warp-drive\\/*/
+  npx update-blueprint-deps --filter /@warp-drive\\/*/ --tag beta
 `,
   )
   .description(
