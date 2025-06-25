@@ -1,18 +1,18 @@
 {
   "solution": {
     "update-blueprint-deps": {
-      "impact": "patch",
-      "oldVersion": "0.1.0",
-      "newVersion": "0.1.1",
+      "impact": "minor",
+      "oldVersion": "0.1.1",
+      "newVersion": "0.2.0",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-05-21)\n\n* update-blueprint-deps 0.1.1 (patch)\n\n#### :bug: Bug Fix\n* `update-blueprint-deps`\n  * [#6](https://github.com/ember-cli/update-blueprint-deps/pull/6) only deploy needed files ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2025-06-25)\n\n* update-blueprint-deps 0.2.0 (minor)\n\n#### :rocket: Enhancement\n* `update-blueprint-deps`\n  * [#8](https://github.com/ember-cli/update-blueprint-deps/pull/8) Remove `--latest` in favour of `--tag latest` and add tests ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
