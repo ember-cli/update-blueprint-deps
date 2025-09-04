@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2025-09-04)
+
+* update-blueprint-deps 0.3.0 (minor)
+
+#### :rocket: Enhancement
+* `update-blueprint-deps`
+  * [#10](https://github.com/ember-cli/update-blueprint-deps/pull/10) make ember-data an optional argument ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-06-25)
 
 * update-blueprint-deps 0.2.0 (minor)

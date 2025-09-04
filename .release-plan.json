@@ -2,8 +2,8 @@
   "solution": {
     "update-blueprint-deps": {
       "impact": "minor",
-      "oldVersion": "0.1.1",
-      "newVersion": "0.2.0",
+      "oldVersion": "0.2.0",
+      "newVersion": "0.3.0",
       "tagName": "latest",
       "constraints": [
         {
@@ -14,5 +14,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2025-06-25)\n\n* update-blueprint-deps 0.2.0 (minor)\n\n#### :rocket: Enhancement\n* `update-blueprint-deps`\n  * [#8](https://github.com/ember-cli/update-blueprint-deps/pull/8) Remove `--latest` in favour of `--tag latest` and add tests ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2025-09-04)\n\n* update-blueprint-deps 0.3.0 (minor)\n\n#### :rocket: Enhancement\n* `update-blueprint-deps`\n  * [#10](https://github.com/ember-cli/update-blueprint-deps/pull/10) make ember-data an optional argument ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
