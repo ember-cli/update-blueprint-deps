@@ -25,14 +25,8 @@ Examples:
   .description(
     'This script updates the dependencies / devDependencies in package.json files and is tolerant of EJS templates',
   )
-  .requiredOption(
-    '--ember-source <dist-tag>',
-    'The dist-tag to use for ember-source',
-  )
-  .requiredOption(
-    '--ember-data <dist-tag>',
-    'The dist-tag to use for ember-data',
-  )
+  .option('--ember-source <dist-tag>', 'The dist-tag to use for ember-source')
+  .option('--ember-data <dist-tag>', 'The dist-tag to use for ember-data')
   .option('--ember-cli <dist-tag>', 'The dist-tag to use for ember-cli')
   .addOption(
     new Option(
@@ -51,6 +45,13 @@ export default async function main(argv) {
   program.parse(argv);
 
   const OPTIONS = program.opts();
+
+  if (!OPTIONS.filter && !OPTIONS.emberSource) {
+    console.error(
+      `You must pass '--ember-source' or '--filter' arguments to this command. Try running again with '--help' for more information`,
+    );
+    process.exit(1);
+  }
 
   if (OPTIONS.latest) {
     console.error(`use argument '--tag latest' instead of passing '--latest'`);

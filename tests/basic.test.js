@@ -4,6 +4,11 @@ import { readFile } from 'node:fs/promises';
 import semver from 'semver';
 import { Project } from 'fixturify-project';
 
+const mockConsoleError = vi.spyOn(console, 'error');
+const mockExit = vi.spyOn(process, 'exit').mockImplementation((exitCode) => {
+  throw new Error(`process exit: ${exitCode}`);
+});
+
 let project;
 
 import main from '../index.js';
@@ -101,15 +106,12 @@ describe('Basic test', () => {
     project.addDependency('mocha', '^5.1.0');
     project.addDependency('@ember-data/thingy', '~5.3.8');
     project.addDependency('@ember-data/store', '~5.1.0');
+    project.addDependency('ember-source', '~1.1.0');
     await project.write();
 
     await main([
       'fake',
       'fake',
-      '--ember-source',
-      'latest',
-      '--ember-data',
-      'latest',
       '--tag',
       'latest',
       '--filter',
@@ -129,7 +131,8 @@ describe('Basic test', () => {
         "dependencies": {
           "mocha": "^5.1.0",
           "@ember-data/thingy": "~7.7.7",
-          "@ember-data/store": "~7.7.7"
+          "@ember-data/store": "~7.7.7",
+          "ember-source": "~1.1.0"
         },
         "devDependencies": {}
       }
@@ -148,10 +151,6 @@ describe('Basic test', () => {
     await main([
       'fake',
       'fake',
-      '--ember-source',
-      'latest',
-      '--ember-data',
-      'latest',
       '--tag',
       'beta',
       '--filter',
@@ -172,6 +171,46 @@ describe('Basic test', () => {
           "mocha": "^5.1.0",
           "@ember-data/thingy": "~8.0.0-beta.5",
           "@ember-data/store": "~8.0.0-beta.5"
+        },
+        "devDependencies": {}
+      }
+      "
+    `);
+  });
+
+  it('throws an error if you dont pass --filter or --ember-source', async () => {
+    project = new Project('test-project');
+
+    project.addDependency('mocha', '^5.1.0');
+    project.addDependency('@ember-data/thingy', '~5.3.8');
+    project.addDependency('@ember-data/store', '~5.1.0');
+    await project.write();
+
+    await expect(
+      main(['fake', 'fake', join(project.baseDir, 'package.json')]),
+    ).rejects.toThrowError();
+
+    expect(mockExit).to.be.toBeCalledWith(1);
+    expect(mockConsoleError.mock.lastCall).toMatchInlineSnapshot(`
+      [
+        "You must pass '--ember-source' or '--filter' arguments to this command. Try running again with '--help' for more information",
+      ]
+    `);
+
+    // make sure that nothing in the package.json changed
+    const contents = await readFile(
+      join(project.baseDir, 'package.json'),
+      'utf8',
+    );
+    expect(contents).toMatchInlineSnapshot(`
+      "{
+        "name": "test-project",
+        "version": "0.0.0",
+        "keywords": [],
+        "dependencies": {
+          "mocha": "^5.1.0",
+          "@ember-data/thingy": "~5.3.8",
+          "@ember-data/store": "~5.1.0"
         },
         "devDependencies": {}
       }
