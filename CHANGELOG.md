@@ -1,5 +1,20 @@
 # Changelog
 
+## Release (2026-04-21)
+
+* update-blueprint-deps 0.4.0 (minor)
+
+#### :rocket: Enhancement
+* `update-blueprint-deps`
+  * [#12](https://github.com/ember-cli/update-blueprint-deps/pull/12) catch error when checking latest version and continue ([@mansona](https://github.com/mansona))
+
+#### :house: Internal
+* `update-blueprint-deps`
+  * [#15](https://github.com/ember-cli/update-blueprint-deps/pull/15) update release-plan ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2025-09-04)
 
 * update-blueprint-deps 0.3.0 (minor)
