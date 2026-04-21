@@ -3,6 +3,9 @@ import { join } from 'node:path';
 import fs from 'node:fs';
 import _latestVersion from 'latest-version';
 import { readFile } from 'node:fs/promises';
+import createDebug from 'debug';
+
+const debug = createDebug('update-blueprint-deps');
 
 const pkg = JSON.parse(
   await readFile(join(import.meta.dirname, 'package.json'), 'utf8'),
@@ -81,6 +84,11 @@ export default async function main(argv) {
         options.version = OPTIONS[packageName];
       }
 
+      debug(
+        'asking for latest-version of %s with options %o',
+        packageName,
+        options,
+      );
       result = _latestVersion(packageName, options);
       LATEST.set(packageName, result);
     }
@@ -92,7 +100,13 @@ export default async function main(argv) {
     for (let dependencyKey in dependencies) {
       let dependencyName = removeTemplateExpression(dependencyKey);
 
+      debug('updating %s', dependencyName);
+
       if (!shouldCheckDependency(dependencyName)) {
+        debug(
+          'skipping %s because it failed the shouldCheckDependency() check',
+          dependencyName,
+        );
         continue;
       }
 
@@ -118,6 +132,13 @@ export default async function main(argv) {
         try {
           newVersion = await latestVersion(dependencyName, semverRange);
 
+          debug(
+            'updating %s from %s to %s',
+            dependencyName,
+            previousValue,
+            `${prefix}${newVersion}${templateSuffix}`,
+          );
+
           dependencies[dependencyKey] =
             `${prefix}${newVersion}${templateSuffix}`;
         } catch (err) {
@@ -125,6 +146,11 @@ export default async function main(argv) {
             `Error checking version for ${dependencyKey}: ${err.message}`,
           );
         }
+      } else {
+        debug(
+          'skipping %s hasVersion and isValidPrefix checks have failed',
+          dependencyName,
+        );
       }
     }
   }
