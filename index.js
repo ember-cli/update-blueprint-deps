@@ -114,9 +114,17 @@ export default async function main(argv) {
         const semverRange = OPTIONS.tag
           ? OPTIONS.tag
           : removeTemplateExpression(previousValue);
-        const newVersion = await latestVersion(dependencyName, semverRange);
+        let newVersion;
+        try {
+          newVersion = await latestVersion(dependencyName, semverRange);
 
-        dependencies[dependencyKey] = `${prefix}${newVersion}${templateSuffix}`;
+          dependencies[dependencyKey] =
+            `${prefix}${newVersion}${templateSuffix}`;
+        } catch (err) {
+          console.error(
+            `Error checking version for ${dependencyKey}: ${err.message}`,
+          );
+        }
       }
     }
   }
