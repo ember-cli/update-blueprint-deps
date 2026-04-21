@@ -10,20 +10,20 @@
   "license": "MIT",
   "author": "",
   "type": "module",
-  "bin": "main.js",
   "main": "index.js",
+  "bin": "main.js",
   "files": [
     "index.js",
     "main.js"
   ],
   "scripts": {
-    "test": "vitest",
     "format": "prettier . --cache --write",
     "lint": "concurrently \"npm:lint:*(!fix)\" --names \"lint:\" --prefixColors auto",
     "lint:fix": "concurrently \"npm:lint:*:fix\" --names \"fix:\" --prefixColors auto && npm run format",
     "lint:format": "prettier . --cache --check",
     "lint:js": "eslint . --cache",
-    "lint:js:fix": "eslint . --fix"
+    "lint:js:fix": "eslint . --fix",
+    "test": "vitest"
   },
   "dependencies": {
     "commander": "^14.0.0",
@@ -36,7 +36,7 @@
     "fixturify-project": "^7.1.3",
     "globals": "^16.1.0",
     "prettier": "^3.5.3",
-    "release-plan": "^0.16.0",
+    "release-plan": "^0.18.0",
     "semver": "^7.7.2",
     "vitest": "^3.1.4"
   },
