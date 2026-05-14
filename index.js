@@ -1,8 +1,8 @@
 import { program, Option } from 'commander';
 import { join } from 'node:path';
 import fs from 'node:fs';
-import _latestVersion from 'latest-version';
 import { readFile } from 'node:fs/promises';
+import { getLatestVersion } from './lib/latest-version.js';
 
 const pkg = JSON.parse(
   await readFile(join(import.meta.dirname, 'package.json'), 'utf8'),
@@ -68,26 +68,6 @@ export default async function main(argv) {
     return true;
   }
 
-  const LATEST = new Map();
-  async function latestVersion(packageName, semverRange) {
-    let result = LATEST.get(packageName);
-
-    if (result === undefined) {
-      let options = {
-        version: semverRange,
-      };
-
-      if (OPTIONS[packageName]) {
-        options.version = OPTIONS[packageName];
-      }
-
-      result = _latestVersion(packageName, options);
-      LATEST.set(packageName, result);
-    }
-
-    return result;
-  }
-
   async function updateDependencies(dependencies) {
     for (let dependencyKey in dependencies) {
       let dependencyName = removeTemplateExpression(dependencyKey);
@@ -116,7 +96,11 @@ export default async function main(argv) {
           : removeTemplateExpression(previousValue);
         let newVersion;
         try {
-          newVersion = await latestVersion(dependencyName, semverRange);
+          newVersion = await getLatestVersion(
+            dependencyName,
+            semverRange,
+            OPTIONS.tag,
+          );
 
           dependencies[dependencyKey] =
             `${prefix}${newVersion}${templateSuffix}`;

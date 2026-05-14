@@ -1,7 +1,6 @@
 import { beforeEach, it, describe, expect, vi } from 'vitest';
 import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
-import semver from 'semver';
 import { Project } from 'fixturify-project';
 
 const mockConsoleError = vi.spyOn(console, 'error');
@@ -14,20 +13,23 @@ let project;
 import main from '../index.js';
 
 // this is to prevent the tests from being flakey and also stops it hitting the network
-vi.mock('latest-version', () => {
+vi.mock('@pnpm/deps.inspection.commands', () => {
   return {
-    default(pkg, { version }) {
-      // latest is always all sevens
-      if (version === 'latest') {
-        return '7.7.7';
-      }
+    view: {
+      handler: (_config, [, command]) => {
+        if (command === 'time') {
+          return JSON.stringify({
+            '5.2.0': '2025-10-30T21:30:31.370Z',
+          });
+        }
 
-      if (version === 'beta') {
-        return '8.0.0-beta.5';
-      }
-
-      // otherwise increment a minor
-      return semver.inc(semver.valid(semver.coerce(version)), 'minor');
+        if (command === 'dist-tags') {
+          return JSON.stringify({
+            beta: '8.0.0-beta.5',
+            latest: '7.7.7',
+          });
+        }
+      },
     },
   };
 });
