@@ -2,21 +2,17 @@
   "solution": {
     "update-blueprint-deps": {
       "impact": "minor",
-      "oldVersion": "0.3.0",
-      "newVersion": "0.4.0",
+      "oldVersion": "0.4.0",
+      "newVersion": "0.5.0",
       "tagName": "latest",
       "constraints": [
         {
           "impact": "minor",
           "reason": "Appears in changelog section :rocket: Enhancement"
-        },
-        {
-          "impact": "patch",
-          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2026-04-21)\n\n* update-blueprint-deps 0.4.0 (minor)\n\n#### :rocket: Enhancement\n* `update-blueprint-deps`\n  * [#12](https://github.com/ember-cli/update-blueprint-deps/pull/12) catch error when checking latest version and continue ([@mansona](https://github.com/mansona))\n\n#### :house: Internal\n* `update-blueprint-deps`\n  * [#15](https://github.com/ember-cli/update-blueprint-deps/pull/15) update release-plan ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-05-14)\n\n* update-blueprint-deps 0.5.0 (minor)\n\n#### :rocket: Enhancement\n* `update-blueprint-deps`\n  * [#16](https://github.com/ember-cli/update-blueprint-deps/pull/16) replace latest-version with our own function that has a minimum age for packages ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
