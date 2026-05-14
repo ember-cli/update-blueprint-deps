@@ -2,7 +2,7 @@ import { program, Option } from 'commander';
 import { join } from 'node:path';
 import fs from 'node:fs';
 import { readFile } from 'node:fs/promises';
-import { getLatestVersion } from './lib/latest-version';
+import { getLatestVersion } from './lib/latest-version.js';
 
 const pkg = JSON.parse(
   await readFile(join(import.meta.dirname, 'package.json'), 'utf8'),
