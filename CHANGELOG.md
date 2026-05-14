@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2026-05-14)
+
+* update-blueprint-deps 0.5.0 (minor)
+
+#### :rocket: Enhancement
+* `update-blueprint-deps`
+  * [#16](https://github.com/ember-cli/update-blueprint-deps/pull/16) replace latest-version with our own function that has a minimum age for packages ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2026-04-21)
 
 * update-blueprint-deps 0.4.0 (minor)
