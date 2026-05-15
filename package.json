@@ -13,6 +13,7 @@
   "main": "index.js",
   "bin": "main.js",
   "files": [
+    "lib",
     "index.js",
     "main.js"
   ],
