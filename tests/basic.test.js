@@ -1,4 +1,4 @@
-import { beforeEach, it, describe, expect, vi } from 'vitest';
+import { beforeEach, afterEach, it, describe, expect, vi } from 'vitest';
 import { join } from 'node:path';
 import { readFile } from 'node:fs/promises';
 import { Project } from 'fixturify-project';
@@ -36,10 +36,15 @@ vi.mock('@pnpm/deps.inspection.commands', () => {
 
 describe('Basic test', () => {
   beforeEach(async () => {
+    vi.useFakeTimers();
     project = new Project('test-project');
 
     project.addDependency('mocha', '^5.1.0');
     await project.write();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('updates a package.json', async () => {
@@ -64,6 +69,37 @@ describe('Basic test', () => {
         "keywords": [],
         "dependencies": {
           "mocha": "^5.2.0"
+        },
+        "devDependencies": {}
+      }
+      "
+    `);
+  });
+
+  it('does not update package.json when the latest package is within the minimum age window', async () => {
+    const date = new Date('2025-10-31');
+    vi.setSystemTime(date);
+    await main([
+      'fake',
+      'fake',
+      '--ember-source',
+      'latest',
+      '--ember-data',
+      'latest',
+      join(project.baseDir, 'package.json'),
+    ]);
+
+    const contents = await readFile(
+      join(project.baseDir, 'package.json'),
+      'utf8',
+    );
+    expect(contents).toMatchInlineSnapshot(`
+      "{
+        "name": "test-project",
+        "version": "0.0.0",
+        "keywords": [],
+        "dependencies": {
+          "mocha": "^5.1.0"
         },
         "devDependencies": {}
       }

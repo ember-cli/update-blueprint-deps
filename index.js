@@ -102,8 +102,10 @@ export default async function main(argv) {
             OPTIONS.tag,
           );
 
-          dependencies[dependencyKey] =
-            `${prefix}${newVersion}${templateSuffix}`;
+          if (newVersion) {
+            dependencies[dependencyKey] =
+              `${prefix}${newVersion}${templateSuffix}`;
+          }
         } catch (err) {
           console.error(
             `Error checking version for ${dependencyKey}: ${err.message}`,
