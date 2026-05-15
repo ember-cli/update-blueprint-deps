@@ -2,8 +2,8 @@
   "solution": {
     "update-blueprint-deps": {
       "impact": "patch",
-      "oldVersion": "0.5.0",
-      "newVersion": "0.5.1",
+      "oldVersion": "0.5.1",
+      "newVersion": "0.5.2",
       "tagName": "latest",
       "constraints": [
         {
@@ -14,5 +14,5 @@
       "pkgJSONPath": "./package.json"
     }
   },
-  "description": "## Release (2026-05-15)\n\n* update-blueprint-deps 0.5.1 (patch)\n\n#### :bug: Bug Fix\n* `update-blueprint-deps`\n  * [#18](https://github.com/ember-cli/update-blueprint-deps/pull/18) fix issue with undefined being added to package.json ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
+  "description": "## Release (2026-05-15)\n\n* update-blueprint-deps 0.5.2 (patch)\n\n#### :bug: Bug Fix\n* `update-blueprint-deps`\n  * [#20](https://github.com/ember-cli/update-blueprint-deps/pull/20) add lib to files ([@mansona](https://github.com/mansona))\n\n#### Committers: 1\n- Chris Manson ([@mansona](https://github.com/mansona))\n"
 }
