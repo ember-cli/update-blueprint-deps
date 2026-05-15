@@ -2,6 +2,17 @@
 
 ## Release (2026-05-15)
 
+* update-blueprint-deps 0.5.2 (patch)
+
+#### :bug: Bug Fix
+* `update-blueprint-deps`
+  * [#20](https://github.com/ember-cli/update-blueprint-deps/pull/20) add lib to files ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
+## Release (2026-05-15)
+
 * update-blueprint-deps 0.5.1 (patch)
 
 #### :bug: Bug Fix
