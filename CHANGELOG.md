@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2026-05-15)
+
+* update-blueprint-deps 0.5.1 (patch)
+
+#### :bug: Bug Fix
+* `update-blueprint-deps`
+  * [#18](https://github.com/ember-cli/update-blueprint-deps/pull/18) fix issue with undefined being added to package.json ([@mansona](https://github.com/mansona))
+
+#### Committers: 1
+- Chris Manson ([@mansona](https://github.com/mansona))
+
 ## Release (2026-05-14)
 
 * update-blueprint-deps 0.5.0 (minor)
